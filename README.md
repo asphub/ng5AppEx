@@ -111,7 +111,7 @@ imports: [
 
 ### **Step 5**
 #### Define the Router outlet
-In the `app.component.html` file, write the following code
+In the `app.component.html` file, make the following changes on code
 ```html
 <div class="t-c">
   <h1>
@@ -150,3 +150,188 @@ Add some styles on `app.component.scss`
   &-j { text-align: justify; }
 }
 ```
+**_OR_**
+
+can be write the global styles on `styles.scss`
+
+### **Step 6**
+Styles for layout with Angular Material
+
+More Details: [https://material.angular.io/guide/getting-started](https://material.angular.io/guide/getting-started)
+
+Install Angular Material and Angular CDK
+```bash
+npm install --save @angular/material @angular/cdk
+```
+Animations
+```bash
+npm install --save angular/material2-builds angular/cdk-builds
+```
+Gesture Support
+```bash
+npm install --save hammerjs
+```
+
+#### Customising the Material theme
+> `style.scss`
+```scss
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+html, body {
+  margin: 0;
+}
+
+...
+```
+
+#### Importing Modules for material Support
+
+> `app.module.ts`
+
+```ts
+...
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import {
+  MatIconModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatInputModule,
+  MatSidenavModule,
+  MatCardModule
+} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+...
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    IndexComponent,
+    CreateComponent,
+    EditComponent
+  ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatSidenavModule,
+    MatCardModule
+  ],
+  exports: [
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatSidenavModule,
+    MatCardModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+export class MaterialModule { }
+```
+
+#### Adding CSS For Material Icons
+> `index.html`
+```html
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+```
+
+#### Import `hammerjs`
+> `main.ts`
+```ts
+import 'hammerjs';
+```
+
+#### Creating Layout with Material
+> `app.component.html`
+
+```html
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <a routerLink="index" routerLinkActive="active" mat-button>
+      <mat-icon class="icon">home</mat-icon>
+    </a>
+    <h1>
+      Welcome to {{title}}!!
+    </h1>
+    <span class="spacer"></span>
+    <a routerLink="create" routerLinkActive="active" mat-button>
+      <mat-icon class="icon">add</mat-icon>
+      <span>Coin</span>
+    </a>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened>
+    Sidenav content
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+```
+
+### **Step 7**
+#### Proper layouts for content area
+> `index.component.html`
+```html
+<main class="main">
+    index works!
+</main>
+```
+> `create.component.html`
+```html
+<main class="main">
+    create works!
+</main>
+```
+> `edit.component.html`
+```html
+<main class="main">
+    index works!
+</main>
+```
+
+#### Adding some CSS
+> `style.scss`
+```scss
+...
+
+main {
+  padding: 15px;
+}
+```
+<!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->

@@ -1,4 +1,5 @@
 import { AppPage } from './app.po';
+// import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ng5-app-ex App', () => {
   let page: AppPage;
