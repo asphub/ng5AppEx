@@ -83,8 +83,8 @@ import { EditComponent } from './components/edit/edit.component';
 import { IndexComponent } from './components/index/index.component';
 
 export const appRoutes: Routes = [
-  { path: 'create', 
-    component: CreateComponent 
+  { path: 'create',
+    component: CreateComponent
   },
   {
     path: 'edit/:id',
@@ -224,7 +224,6 @@ html, body {
 
 ```ts
 ...
-import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import {
   MatIconModule,
@@ -392,7 +391,7 @@ And then, we need to make the `create.component.html` form design.
 ```html
 <main class="main">
   <div class="row">
-    <div class="col-lg-3 col-md-4">
+    <div class="col-lg-4 col-md-6">
       <mat-card class="form-card">
         <mat-card-header>
           <div mat-card-avatar><mat-icon class="icon">monetization_on</mat-icon></div>
@@ -419,7 +418,7 @@ And then, we need to make the `create.component.html` form design.
 </main>
 ```
 
-Adding some styles ;)
+Adding some styles 😉
 
 ```scss
 .mat-card {
@@ -440,6 +439,26 @@ Adding some styles ;)
     width: 100%;
   }
 }
+```
+
+### **Step 10**
+Configure HttpClientModule
+
+> `HttpClientModule` is a new API that came with 4.3, it has updated API's with support for progress events, json deserialization by default, Interceptors and many other great features. See more [here](https://angular.io/guide/http), whereas `HttpModule` is the older API and will eventually be deprecated.
+
+Go to the `app.module.ts` file. Include the `HttpClientModule` in it.
+```ts
+import {HttpClientModule} from '@angular/common/http';
+
+...
+
+imports: [
+  ...
+
+  HttpClientModule,
+
+  ...
+],
 ```
 
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
