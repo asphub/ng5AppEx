@@ -481,4 +481,70 @@ import { CoinService } from './coin.service';
 providers: [CoinService]
 ```
 
+### **Step 12**
+#### Configure `node.js` MongoDB backend.
+
+Next step, would be to create `node.js` and Express backend to store the data. Create one file in the project root called `server.js`
+
+Now, we need to install the express framework and other dependencies via NPM, so let us do it first.
+```bash
+npm install --save express body-parser cors mongoose nodemon
+```
+Switch to newly created `server.js` file and enter the following code into it.
+
+> `server.js`
+```js
+var express = require('express'),
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  cors = require('cors'),
+  mongoose = require('mongoose');
+
+const app = express();
+
+var port = process.env.PORT || 4000;
+
+var server = app.listen(function(){
+  console.log('Listening on port ' + port);
+});
+```
+Next thing is we need to create the **MongoDB** database and connect it with our express application.
+
+> Note: You need to have installed MongoDB database on your server or local otherwise first you need to download it and start the **MongoDB** server.
+
+Create one config folder inside project root. In that create one file called `DB.js`.
+
+> `DB.js`
+```js
+module.exports = {
+   DB: 'mongodb://localhost:27017/angularcrud'
+};
+```
+Import this file into our `server.js` file and use **mongoose** to set up a database connection with **MongoDB**. You need to copy the whole `server.js` file; I am about to show so that nothing will left and lead us to error.
+
+> `server.js`
+```js
+const express = require('express'),
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  cors = require('cors'),
+  mongoose = require('mongoose'),
+  config = require('./config/DB');
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.DB).then(
+  () => { console.log('Database is connected') },
+  err => { console.log('Can not connect to the database' + err) }
+);
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
+const port = process.env.PORT || 4000;
+
+const server = app.listen(port, function () {
+  console.log('Listening on port ' + port);
+});
+```
+
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
