@@ -20,7 +20,7 @@ import { IndexComponent } from './components/index/index.component';
 import { CreateComponent } from './components/create/create.component';
 import { EditComponent } from './components/edit/edit.component';
 import { appRoutes } from './routerConfig';
-
+import { CoinService } from './coin.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import { appRoutes } from './routerConfig';
     MatSidenavModule,
     MatCardModule
   ],
-  providers: [],
+  providers: [CoinService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

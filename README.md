@@ -449,7 +449,6 @@ Configure HttpClientModule
 Go to the `app.module.ts` file. Include the `HttpClientModule` in it.
 ```ts
 import {HttpClientModule} from '@angular/common/http';
-
 ...
 
 imports: [
@@ -459,6 +458,27 @@ imports: [
 
   ...
 ],
+```
+
+### **Step 11**
+#### Create services to send http requests
+
+Type the following command in your terminal.
+```bash
+ng g service coin
+```
+
+It will create the following classes.
+
+1. `coin.service.ts`
+2. `coin.service.spec.ts`
+
+Now, import the service file into the `app.module.ts` file.
+
+```ts
+import { CoinService } from './coin.service';
+
+providers: [CoinService]
 ```
 
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
