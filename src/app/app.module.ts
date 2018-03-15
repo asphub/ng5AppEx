@@ -7,6 +7,7 @@ import {
   MatIconModule,
   MatButtonModule,
   MatToolbarModule,
+  // MatSelectModule,
   MatInputModule,
   MatSidenavModule,
   MatCardModule
@@ -32,10 +33,11 @@ import { appRoutes } from './routerConfig';
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
+    MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule,
     MatInputModule,
+    // MatSelectModule,
     MatSidenavModule,
     MatCardModule
   ],

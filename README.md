@@ -207,6 +207,15 @@ html, body {
 }
 
 ...
+
+.mat-toolbar {
+  a {
+    color: currentColor;
+  }
+  .mat-button {
+    padding: 0 14px;
+  }
+}
 ```
 
 #### Importing Modules for material Support
@@ -334,4 +343,103 @@ main {
   padding: 15px;
 }
 ```
+
+### **Step 8**
+#### Adding Responsive Grids
+
+You can either to use Bootstrap / any other grids or can be write a new grid system
+
+I have a extracted a subset of Bootstrap-4 for Grid and basic functionalities. You can avail this copy on this [link](https://github.com/asphub/bootstrap-4-grid)
+
+Add `scss` folder and `bootstrap.scss` directly on the `src` folder
+
+Adding Bootstrap CSS globally
+> `.angular-cli.json`
+```JSON
+...
+
+"styles": [
+  "bootstrap.scss",
+  "styles.scss"
+],
+
+...
+```
+
+### **Step 9**
+#### Make a form in the create a component file.
+First, our `create.component.ts` file looks like this.
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.css']
+})
+export class CreateComponent implements OnInit {
+
+  title = 'Add Coin';
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+And then, we need to make the `create.component.html` form design.
+
+```html
+<main class="main">
+  <div class="row">
+    <div class="col-lg-3 col-md-4">
+      <mat-card class="form-card">
+        <mat-card-header>
+          <div mat-card-avatar><mat-icon class="icon">monetization_on</mat-icon></div>
+          <mat-card-title>Coins</mat-card-title>
+          <mat-card-subtitle>Create</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-container">
+            <mat-form-field>
+              <input matInput placeholder="Coin Name">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Coin Price">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="spacer"></div>
+          <button mat-button color="accent">Add</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</main>
+```
+
+Adding some styles ;)
+
+```scss
+.mat-card {
+  & > &-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+}
+
+.form-container {
+  display: flex;
+  padding: 30px 0;
+  flex-direction: column;
+  & > * {
+    width: 100%;
+  }
+}
+```
+
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
