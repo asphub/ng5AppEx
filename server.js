@@ -19,3 +19,7 @@ const port = process.env.PORT || 4000;
 const server = app.listen(port, function () {
   console.log('Listening on port ' + port);
 });
+
+coinRoutes = require('./expressRoutes/coinRoutes');
+
+app.use('/coins', coinRoutes);
