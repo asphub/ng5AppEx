@@ -5,7 +5,8 @@ import {
   Validators,
   FormControl,
   FormBuilder,
-  FormGroupDirective
+  FormGroupDirective,
+  AbstractControl
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -39,6 +40,16 @@ export class CreateComponent implements OnInit {
     Validators.min(1)
   ]);
 
+  resetForm(formGroup: FormGroup) {
+    let control: AbstractControl = null;
+    formGroup.reset();
+    formGroup.markAsUntouched();
+    Object.keys(formGroup.controls).forEach((name) => {
+      control = formGroup.controls[name];
+      control.setErrors(null);
+    });
+  }
+
   createForm() {
     this.coinForm = this.fb.group({
       coinName: new FormControl('', [
@@ -52,6 +63,8 @@ export class CreateComponent implements OnInit {
   }
   addCoin(name, price) {
     this.coinservice.addCoin(name, price);
+    this.coinForm.reset();
+    this.resetForm(this.coinForm);
   }
 
   ngOnInit() {

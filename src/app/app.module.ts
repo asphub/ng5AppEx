@@ -7,11 +7,11 @@ import {
   MatIconModule,
   MatButtonModule,
   MatToolbarModule,
-  // MatSelectModule,
+  MatTableModule,
   MatInputModule,
   MatSidenavModule,
   MatCardModule
-} from '@angular/material'; // For Material
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Animation Support
 
 
@@ -39,7 +39,7 @@ import { CoinService } from './coin.service';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    // MatSelectModule,
+    MatTableModule,
     MatSidenavModule,
     MatCardModule
   ],
@@ -48,6 +48,7 @@ import { CoinService } from './coin.service';
     MatButtonModule,
     MatToolbarModule,
     MatInputModule,
+    MatTableModule,
     MatSidenavModule,
     MatCardModule
   ],

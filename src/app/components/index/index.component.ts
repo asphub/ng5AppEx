@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { MatTableDataSource } from '@angular/material';
+
+import { CoinService } from './../../coin.service';
 
 @Component({
   selector: 'app-index',
@@ -6,10 +11,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
+  coins: any;
+  displayedColumns = ['name', 'price', 'action'];
+  dataSource = this.coins;
 
-  constructor() { }
+  constructor(private http: HttpClient, private service: CoinService) { }
 
-  ngOnInit() {
+  getCoins() {
+    this.service.getCoins().subscribe(res => {
+      this.coins = res;
+      this.dataSource = new MatTableDataSource(this.coins);
+    });
   }
 
+  ngOnInit() {
+    this.getCoins();
+  }
 }

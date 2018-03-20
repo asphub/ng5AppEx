@@ -724,7 +724,7 @@ Then, we are validating the forms. So first write the form HTML in the `create.c
     </mat-card-content>
     <mat-card-actions>
       <div class="spacer"></div>
-      <button mat-button color="accent" (click)="addCoin(coinName.value, coinVal.value)" [disabled]="coinForm.pristine || coinForm.invalid">Add</button>
+      <button mat-button color="accent" (click)="addCoin(coinForm.value.coinName, coinForm.value.coinVal)" [disabled]="coinForm.pristine || coinForm.invalid">Add</button>
     </mat-card-actions>
   </mat-card>
 </form>
@@ -740,7 +740,8 @@ import {
   Validators,
   FormControl,
   FormBuilder,
-  FormGroupDirective
+  FormGroupDirective,
+  AbstractControl
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -774,6 +775,16 @@ export class CreateComponent implements OnInit {
     Validators.min(1)
   ]);
 
+  resetForm(formGroup: FormGroup) {
+    let control: AbstractControl = null;
+    formGroup.reset();
+    formGroup.markAsUntouched();
+    Object.keys(formGroup.controls).forEach((name) => {
+      control = formGroup.controls[name];
+      control.setErrors(null);
+    });
+  }
+
   createForm() {
     this.coinForm = this.fb.group({
       coinName: new FormControl('', [
@@ -787,6 +798,8 @@ export class CreateComponent implements OnInit {
   }
   addCoin(name, price) {
     this.coinservice.addCoin(name, price);
+    this.coinForm.reset();
+    this.resetForm(this.coinForm);
   }
 
   ngOnInit() {
@@ -794,7 +807,7 @@ export class CreateComponent implements OnInit {
 }
 ```
 
-Write the coin.service.ts file to insert the data into the database.
+Write the `coin.service.ts` file to insert the data into the database.
 > `coin.service.ts`
 ```ts
 import { Injectable } from '@angular/core';
@@ -819,5 +832,155 @@ export class CoinService {
 ```
 Start the `node.js` server by typing: `node server`. If all the database configuration is right then, you can see the data is inserting into the database.
 
+### **Step 15**
+#### Display the data to the frontend
+Import Material DataTable for displaying the data
+> `app.module.ts`
+```ts
+  import {
+    ...
+    MatTableModule,
+    ...
+  } from '@angular/material';
+
+  ...
+
+  @NgModule({
+    ...
+    imports: [
+      ...
+      MatTableModule,
+      ...
+    ],
+    exports: [
+      ...
+      MatTableModule,
+      ...
+    ],
+    ...
+  })
+```
+
+In the `index.component.ts` file, write the following code.
+```ts
+  import { Component, OnInit } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+  import { Observable } from 'rxjs/Observable';
+  import { MatTableDataSource } from '@angular/material';
+
+  import { CoinService } from './../../coin.service';
+
+  @Component({
+    selector: 'app-index',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss']
+  })
+  export class IndexComponent implements OnInit {
+    coins: any;
+    displayedColumns = ['name', 'price', 'action'];
+    dataSource = this.coins;
+
+    constructor(private http: HttpClient, private service: CoinService) { }
+
+    getCoins() {
+      this.service.getCoins().subscribe(res => {
+        this.coins = res;
+        this.dataSource = new MatTableDataSource(this.coins);
+      });
+    }
+
+    ngOnInit() {
+      this.getCoins();
+    }
+  }
+```
+In the `index.component.html` file, write the following code for Material Data Table.
+```html
+  <main class="main">
+    <div class="col-md-6">
+      <mat-table #table [dataSource]="dataSource">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef class="w-120"> Action </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="w-120 t-r">
+              <a [routerLink]="['/edit', element._id]" mat-icon-button color="primary">
+                <mat-icon aria-label="Edit Coin">edit</mat-icon>
+              </a>
+              <a [routerLink]="" mat-icon-button color="warn">
+                <mat-icon aria-label="Delete Coin">delete</mat-icon>
+              </a>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </main>
+```
+
+Add some style for column width
+> `index.component.scss`
+```scss
+  .w-120 {
+    max-width: 120px;
+  }
+```
+Service get and edit coins
+> `coin.service.ts`
+```ts
+  import { Injectable } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+  import {
+    FormGroup,
+    FormBuilder,
+    Validators
+  } from '@angular/forms';
+  import { Observable } from 'rxjs/Observable';
+  import 'rxjs/add/operator/map';
+
+  @Injectable()
+  export class CoinService {
+
+    result: any;
+    constructor(private http: HttpClient) { }
+
+    addCoin(name, price) {
+      const uri = 'http://localhost:4000/coins/add';
+      const obj = {
+        name: name,
+        price: price
+      };
+      this.http.post(uri, obj)
+        .subscribe(res => console.log('Done'));
+    }
+
+    getCoins() {
+      const uri = 'http://localhost:4000/coins';
+      return this.http.get(uri).map(res => {
+        return res;
+      });
+    }
+
+    editCoin(id) {
+      const uri = 'http://localhost:4000/coins/edit/' + id;
+      return this.http.get(uri).map(res => {
+        return res;
+      });
+    }
+  }
+```
 
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
