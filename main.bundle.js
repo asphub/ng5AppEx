@@ -72,19 +72,22 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser_animations__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_index_index_component__ = __webpack_require__("./src/app/components/index/index.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_create_create_component__ = __webpack_require__("./src/app/components/create/create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_edit_edit_component__ = __webpack_require__("./src/app/components/edit/edit.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__routerConfig__ = __webpack_require__("./src/app/routerConfig.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser_animations__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_index_index_component__ = __webpack_require__("./src/app/components/index/index.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_create_create_component__ = __webpack_require__("./src/app/components/create/create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_edit_edit_component__ = __webpack_require__("./src/app/components/edit/edit.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__routerConfig__ = __webpack_require__("./src/app/routerConfig.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__coin_service__ = __webpack_require__("./src/app/coin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -96,40 +99,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__components_index_index_component__["a" /* IndexComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__components_create_create_component__["a" /* CreateComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__components_edit_edit_component__["a" /* EditComponent */]
+                __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__components_index_index_component__["a" /* IndexComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__components_create_create_component__["a" /* CreateComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__components_edit_edit_component__["a" /* EditComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_10__routerConfig__["a" /* appRoutes */]),
-                __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_11__routerConfig__["a" /* appRoutes */]),
+                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["i" /* ReactiveFormsModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["f" /* MatToolbarModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["c" /* MatIconModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["a" /* MatButtonModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["d" /* MatInputModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["f" /* MatToolbarModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["c" /* MatIconModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatButtonModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["d" /* MatInputModule */],
                 // MatSelectModule,
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["e" /* MatSidenavModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["b" /* MatCardModule */]
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatSidenavModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatCardModule */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["c" /* MatIconModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["a" /* MatButtonModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["f" /* MatToolbarModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["d" /* MatInputModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["e" /* MatSidenavModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_material__["b" /* MatCardModule */]
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["c" /* MatIconModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatButtonModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["f" /* MatToolbarModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["d" /* MatInputModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatSidenavModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatCardModule */]
             ],
-            providers: [],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_12__coin_service__["a" /* CoinService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -145,10 +150,52 @@ var MaterialModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/coin.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CoinService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CoinService = /** @class */ (function () {
+    function CoinService(http) {
+        this.http = http;
+    }
+    CoinService.prototype.addCoin = function (name, price) {
+        var uri = 'http://localhost:4000/coins/add';
+        var obj = {
+            name: name,
+            price: price
+        };
+        this.http.post(uri, obj)
+            .subscribe(function (res) { return console.log('Done'); });
+    };
+    CoinService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
+    ], CoinService);
+    return CoinService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/create/create.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"main\">\n    <div class=\"row\">\n      <div class=\"col-lg-4 col-md-6\">\n        <mat-card class=\"form-card\">\n          <mat-card-header>\n            <div mat-card-avatar><mat-icon class=\"icon\">monetization_on</mat-icon></div>\n            <mat-card-title>Coins</mat-card-title>\n            <mat-card-subtitle>Create</mat-card-subtitle>\n          </mat-card-header>\n          <mat-card-content>\n            <div class=\"form-container\">\n              <mat-form-field>\n                <input matInput placeholder=\"Coin Name\">\n              </mat-form-field>\n              <mat-form-field>\n                <input matInput placeholder=\"Coin Price\">\n              </mat-form-field>\n            </div>\n          </mat-card-content>\n          <mat-card-actions>\n            <div class=\"spacer\"></div>\n            <button mat-button color=\"accent\">Add</button>\n          </mat-card-actions>\n        </mat-card>\n      </div>\n    </div>\n</main>\n"
+module.exports = "<main class=\"main\">\n  <div class=\"row\">\n    <div class=\"col-lg-4 col-md-6\">\n      <form [formGroup]=\"coinForm\" novalidate>\n        <mat-card class=\"form-card\">\n          <mat-card-header>\n            <div mat-card-avatar>\n              <mat-icon class=\"icon\">monetization_on</mat-icon>\n            </div>\n            <mat-card-title>Coins</mat-card-title>\n            <mat-card-subtitle>Create</mat-card-subtitle>\n          </mat-card-header>\n          <mat-card-content>\n            <div class=\"form-container\">\n              <mat-form-field>\n                <input matInput placeholder=\"Coin Name\" formControlName=\"coinName\">\n                <mat-error *ngIf=\"coinName.invalid\">Coin Name is required</mat-error>\n              </mat-form-field>\n              <mat-form-field>\n                <input type=\"number\" min=\"1\" matInput placeholder=\"Coin Price\" formControlName=\"coinVal\">\n                <mat-error *ngIf=\"coinVal.invalid\">Coin value Must be a number and greater than 0</mat-error>\n              </mat-form-field>\n            </div>\n          </mat-card-content>\n          <mat-card-actions>\n            <div class=\"spacer\"></div>\n            <button mat-button color=\"accent\" (click)=\"addCoin(coinName.value, coinVal.value)\" [disabled]=\"coinForm.pristine || coinForm.invalid\">Add</button>\n          </mat-card-actions>\n        </mat-card>\n      </form>\n    </div>\n  </div>\n</main>\n"
 
 /***/ }),
 
@@ -163,8 +210,11 @@ module.exports = ".mat-card > .mat-card-actions {\n  display: -webkit-box;\n  di
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export FormControlValidation */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__coin_service__ = __webpack_require__("./src/app/coin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -175,9 +225,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var CreateComponent = /** @class */ (function () {
-    function CreateComponent() {
+
+
+/** Error when invalid control is dirty, touched, or submitted. */
+var FormControlValidation = /** @class */ (function () {
+    function FormControlValidation() {
     }
+    FormControlValidation.prototype.isErrorState = function (control, form) {
+        var isSubmitted = form && form.submitted;
+        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    };
+    return FormControlValidation;
+}());
+
+var CreateComponent = /** @class */ (function () {
+    function CreateComponent(coinservice, fb) {
+        this.coinservice = coinservice;
+        this.fb = fb;
+        this.coinName = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].required
+        ]);
+        this.coinVal = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].min(1)
+        ]);
+        this.createForm();
+    }
+    CreateComponent.prototype.createForm = function () {
+        this.coinForm = this.fb.group({
+            coinName: new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].required
+            ]),
+            coinVal: new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].required,
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["j" /* Validators */].min(1)
+            ])
+        });
+    };
+    CreateComponent.prototype.addCoin = function (name, price) {
+        this.coinservice.addCoin(name, price);
+    };
     CreateComponent.prototype.ngOnInit = function () {
     };
     CreateComponent = __decorate([
@@ -186,7 +273,7 @@ var CreateComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/components/create/create.component.html"),
             styles: [__webpack_require__("./src/app/components/create/create.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__coin_service__["a" /* CoinService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]])
     ], CreateComponent);
     return CreateComponent;
 }());
