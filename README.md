@@ -652,4 +652,165 @@ coinRoutes = require('./expressRoutes/coinRoutes');
 app.use('/coins', coinRoutes);
 ```
 
+### **Step 14**
+#### Insert the value in the MongoDB.
+From the front end side, we need to set up `HttpClientModule` and fire up the HTTP Post call to the NodeJS server.
+
+> `server.js`
+```javascript
+const express = require('express'),
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  cors = require('cors'),
+  mongoose = require('mongoose'),
+  config = require('./config/DB'),
+  coinRoutes = require('./expressRoutes/coinRoutes');
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.DB).then(
+    () => {console.log('Database is connected') },
+    err => { console.log('Can not connect to the database'+ err)}
+  );
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
+const port = process.env.PORT || 4000;
+
+app.use('/coins', coinRoutes);
+
+const server = app.listen(port, function(){
+  console.log('Listening on port ' + port);
+});
+```
+
+We need to include the `ReactiveFormsModule` in the `app.module.ts` file.
+```ts
+import { ReactiveFormsModule } from '@angular/forms';
+...
+@NgModule({
+  ...
+  imports:[
+    ...
+    ReactiveFormsModule,
+    ...
+  ],
+  ...
+});
+```
+Then, we are validating the forms. So first write the form HTML in the `create.component.html`.
+> `create.component.html`
+```html
+<form [formGroup]="coinForm" novalidate>
+  <mat-card class="form-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon class="icon">monetization_on</mat-icon>
+      </div>
+      <mat-card-title>Coins</mat-card-title>
+      <mat-card-subtitle>Create</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-container">
+        <mat-form-field>
+          <input matInput placeholder="Coin Name" formControlName="coinName">
+          <mat-error *ngIf="coinName.invalid">Coin Name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" min="1" matInput placeholder="Coin Price" formControlName="coinVal">
+          <mat-error *ngIf="coinVal.invalid">Coin value Must be a number and greater than 0</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="spacer"></div>
+      <button mat-button color="accent" (click)="addCoin(coinName.value, coinVal.value)" [disabled]="coinForm.pristine || coinForm.invalid">Add</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+```
+
+Also, we need to write the logic of validation in the `create.component.ts` file.
+> `create.component.ts`
+```ts
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+import { CoinService } from '../../coin.service';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class FormControlValidation implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+@Component({
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss']
+})
+export class CreateComponent implements OnInit {
+
+  coinForm: FormGroup;
+  constructor(private coinservice: CoinService, private fb: FormBuilder) {
+    this.createForm();
+  }
+
+  coinName = new FormControl('', [
+    Validators.required
+  ]);
+  coinVal = new FormControl('', [
+    Validators.required,
+    Validators.min(1)
+  ]);
+
+  createForm() {
+    this.coinForm = this.fb.group({
+      coinName: new FormControl('', [
+        Validators.required
+      ]),
+      coinVal: new FormControl('', [
+        Validators.required,
+        Validators.min(1)
+      ])
+    });
+  }
+  addCoin(name, price) {
+    this.coinservice.addCoin(name, price);
+  }
+
+  ngOnInit() {
+  }
+}
+```
+
+Write the coin.service.ts file to insert the data into the database.
+> `coin.service.ts`
+```ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+@Injectable()
+export class CoinService {
+
+  constructor(private http: HttpClient) { }
+
+  addCoin(name, price) {
+    const uri = 'http://localhost:4000/coins/add';
+    const obj = {
+      name: name,
+      price: price
+    };
+    this.http.post(uri, obj)
+      .subscribe(res => console.log('Done'));
+  }
+}
+```
+Start the `node.js` server by typing: `node server`. If all the database configuration is right then, you can see the data is inserting into the database.
+
+
 <!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->

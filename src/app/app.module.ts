@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // For using Forms
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatIconModule,
   MatButtonModule,
@@ -32,6 +32,7 @@ import { CoinService } from './coin.service';
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatToolbarModule,

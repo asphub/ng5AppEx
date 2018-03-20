@@ -1,27 +1,33 @@
 <main class="main">
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <form [formGroup]="coinForm" novalidate>
         <mat-card class="form-card">
           <mat-card-header>
-            <div mat-card-avatar><mat-icon class="icon">monetization_on</mat-icon></div>
+            <div mat-card-avatar>
+              <mat-icon class="icon">monetization_on</mat-icon>
+            </div>
             <mat-card-title>Coins</mat-card-title>
             <mat-card-subtitle>Create</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <div class="form-container">
               <mat-form-field>
-                <input matInput placeholder="Coin Name">
+                <input matInput placeholder="Coin Name" formControlName="coinName">
+                <mat-error *ngIf="coinName.invalid">Coin Name is required</mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="Coin Price">
+                <input type="number" min="1" matInput placeholder="Coin Price" formControlName="coinVal">
+                <mat-error *ngIf="coinVal.invalid">Coin value Must be a number and greater than 0</mat-error>
               </mat-form-field>
             </div>
           </mat-card-content>
           <mat-card-actions>
             <div class="spacer"></div>
-            <button mat-button color="accent">Add</button>
+            <button mat-button color="accent" (click)="addCoin(coinName.value, coinVal.value)" [disabled]="coinForm.pristine || coinForm.invalid">Add</button>
           </mat-card-actions>
         </mat-card>
-      </div>
+      </form>
     </div>
+  </div>
 </main>
