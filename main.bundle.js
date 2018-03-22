@@ -117,20 +117,20 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__angular_forms__["i" /* ReactiveFormsModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_material__["i" /* MatToolbarModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["h" /* MatToolbarModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["c" /* MatIconModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatButtonModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["d" /* MatInputModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_material__["h" /* MatTableModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["g" /* MatTableModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatSidenavModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatCardModule */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["c" /* MatIconModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatButtonModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_material__["i" /* MatToolbarModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["h" /* MatToolbarModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["d" /* MatInputModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_material__["h" /* MatTableModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["g" /* MatTableModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatSidenavModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatCardModule */]
             ],
@@ -455,7 +455,7 @@ var EditComponent = /** @class */ (function () {
 /***/ "./src/app/components/index/index.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"main\">\n  <div class=\"col-md-6\">\n    <mat-table #table [dataSource]=\"dataSource\">\n      <!-- Name Column -->\n      <ng-container matColumnDef=\"name\">\n        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element.name}} </mat-cell>\n      </ng-container>\n\n      <!-- Price Column -->\n      <ng-container matColumnDef=\"price\">\n        <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element.price}} </mat-cell>\n      </ng-container>\n\n      <!-- Action Column -->\n      <ng-container matColumnDef=\"action\">\n        <mat-header-cell *matHeaderCellDef class=\"w-120\"> Action </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\" class=\"w-120 t-r\">\n            <a [routerLink]=\"['/edit', element._id]\" mat-icon-button color=\"primary\">\n              <mat-icon aria-label=\"Edit Coin\">edit</mat-icon>\n            </a>\n            <a [routerLink]=\"\" (click)=\"deleteCoin(element._id)\" mat-icon-button color=\"warn\">\n              <mat-icon aria-label=\"Delete Coin\">delete</mat-icon>\n            </a>\n        </mat-cell>\n      </ng-container>\n\n      <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n      <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n    </mat-table>\n  </div>\n</main>\n"
+module.exports = "<main class=\"main\">\n  <div class=\"col-md-6\">\n    <mat-table #table [dataSource]=\"dataSource\">\n      <!-- Name Column -->\n      <ng-container matColumnDef=\"name\">\n        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element.name}} </mat-cell>\n      </ng-container>\n\n      <!-- Price Column -->\n      <ng-container matColumnDef=\"price\">\n        <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\"> {{element.price}} </mat-cell>\n      </ng-container>\n\n      <!-- Action Column -->\n      <ng-container matColumnDef=\"action\">\n        <mat-header-cell *matHeaderCellDef class=\"w-120\"> Action </mat-header-cell>\n        <mat-cell *matCellDef=\"let element\" class=\"w-120 t-r\">\n            <a [routerLink]=\"['/edit', element._id]\" mat-icon-button color=\"primary\">\n              <mat-icon aria-label=\"Edit Coin\">edit</mat-icon>\n            </a>\n            <button (click)=\"deleteCoin(element._id)\" mat-icon-button color=\"warn\">\n              <mat-icon aria-label=\"Delete Coin\">delete</mat-icon>\n            </button>\n        </mat-cell>\n      </ng-container>\n\n      <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n      <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n    </mat-table>\n  </div>\n</main>\n"
 
 /***/ }),
 
@@ -489,30 +489,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var IndexComponent = /** @class */ (function () {
-    function IndexComponent(http, service, snackBar) {
+    function IndexComponent(http, service) {
         this.http = http;
         this.service = service;
-        this.snackBar = snackBar;
         this.displayedColumns = ['name', 'price', 'action'];
         this.dataSource = this.coins;
     }
-    IndexComponent.prototype.openSnackBar = function (message, action) {
-        this.snackBar.open(message, action, {
-            duration: 2000,
-        });
-    };
     IndexComponent.prototype.getCoins = function () {
         var _this = this;
         this.service.getCoins().subscribe(function (res) {
             _this.coins = res;
-            _this.dataSource = new __WEBPACK_IMPORTED_MODULE_2__angular_material__["g" /* MatTableDataSource */](_this.coins);
+            _this.dataSource = new __WEBPACK_IMPORTED_MODULE_2__angular_material__["f" /* MatTableDataSource */](_this.coins);
         });
     };
     IndexComponent.prototype.deleteCoin = function (id) {
         var _this = this;
         this.service.deleteCoin(id).subscribe(function (res) {
             _this.getCoins();
-            _this.openSnackBar('Successfully Deleted', 'ok');
         });
     };
     IndexComponent.prototype.ngOnInit = function () {
@@ -525,8 +518,7 @@ var IndexComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/components/index/index.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */],
-            __WEBPACK_IMPORTED_MODULE_3__coin_service__["a" /* CoinService */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_material__["f" /* MatSnackBar */]])
+            __WEBPACK_IMPORTED_MODULE_3__coin_service__["a" /* CoinService */]])
     ], IndexComponent);
     return IndexComponent;
 }());
