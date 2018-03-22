@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import {
-  MatTableDataSource,
-  MatSnackBar
+  MatTableDataSource
 } from '@angular/material';
 
 import { CoinService } from './../../coin.service';
@@ -20,15 +19,8 @@ export class IndexComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private service: CoinService,
-    public snackBar: MatSnackBar
+    private service: CoinService
   ) { }
-
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
 
   getCoins() {
     this.service.getCoins().subscribe(res => {
@@ -40,7 +32,6 @@ export class IndexComponent implements OnInit {
   deleteCoin(id) {
     this.service.deleteCoin(id).subscribe(res => {
       this.getCoins();
-      this.openSnackBar('Successfully Deleted', 'ok');
     });
   }
 
