@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { MatTableDataSource } from '@angular/material';
+import {
+  MatTableDataSource,
+  MatSnackBar
+} from '@angular/material';
 
 import { CoinService } from './../../coin.service';
 
@@ -15,12 +18,29 @@ export class IndexComponent implements OnInit {
   displayedColumns = ['name', 'price', 'action'];
   dataSource = this.coins;
 
-  constructor(private http: HttpClient, private service: CoinService) { }
+  constructor(
+    private http: HttpClient,
+    private service: CoinService,
+    public snackBar: MatSnackBar
+  ) { }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   getCoins() {
     this.service.getCoins().subscribe(res => {
       this.coins = res;
       this.dataSource = new MatTableDataSource(this.coins);
+    });
+  }
+
+  deleteCoin(id) {
+    this.service.deleteCoin(id).subscribe(res => {
+      this.getCoins();
+      this.openSnackBar('Successfully Deleted', 'ok');
     });
   }
 

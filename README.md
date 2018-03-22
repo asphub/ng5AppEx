@@ -812,7 +812,6 @@ Write the `coin.service.ts` file to insert the data into the database.
 ```ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Injectable()
 export class CoinService {
@@ -983,4 +982,237 @@ Service get and edit coins
   }
 ```
 
-<!-- https://appdividend.com/2018/01/21/angular-5-crud-tutorial-example-scratch/ -->
+### **Step 16**
+#### Edit and Delete the Coins
+Now, first, we need to fetch the data from the database and display in the edit form. So first, write the code for the Imports and methods in `edit.component.ts`
+```ts
+  import { Component, OnInit } from '@angular/core';
+  import {
+    NgForm,
+    FormGroup,
+    Validators,
+    FormControl,
+    FormBuilder,
+    FormGroupDirective,
+    AbstractControl
+  } from '@angular/forms';
+  import { ErrorStateMatcher } from '@angular/material/core';
+
+  import { CoinService } from '../../coin.service';
+  import { ActivatedRoute, Router } from '@angular/router';
+
+  /** Error when invalid control is dirty, touched, or submitted. */
+  export class FormControlValidation implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+      const isSubmitted = form && form.submitted;
+      return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    }
+  }
+
+  @Component({
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
+  })
+  export class EditComponent implements OnInit {
+
+    coin: any;
+    coinForm: FormGroup;
+    title = 'Edit Coin';
+    constructor(private route: ActivatedRoute, private router: Router, private service: CoinService, private fb: FormBuilder) {
+      this.createForm();
+    }
+    coinName = new FormControl('', [
+      Validators.required
+    ]);
+    coinVal = new FormControl('', [
+      Validators.required,
+      Validators.min(1)
+    ]);
+
+    resetForm(formGroup: FormGroup) {
+      let control: AbstractControl = null;
+      formGroup.reset();
+      formGroup.markAsUntouched();
+      Object.keys(formGroup.controls).forEach((name) => {
+        control = formGroup.controls[name];
+        control.setErrors(null);
+      });
+    }
+
+    createForm() {
+      this.coinForm = this.fb.group({
+        coinName: new FormControl('', [
+          Validators.required
+        ]),
+        coinVal: new FormControl('', [
+          Validators.required,
+          Validators.min(1)
+        ])
+      });
+    }
+
+    updateCoin(name, price) {
+      this.route.params.subscribe(params => {
+        this.service.updateCoin(name, price, params['id']);
+        this.router.navigate(['index']);
+      });
+    }
+
+    ngOnInit() {
+      this.route.params.subscribe(params => {
+        this.coin = this.service.editCoin(params['id']).subscribe(res => {
+          this.coin = res;
+        });
+      });
+    }
+  }
+```
+Now, also write the code into the `coin.service.ts` file.
+```ts
+  import { Injectable } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+  import { Observable } from 'rxjs/Observable';
+  import 'rxjs/add/operator/map';
+
+  @Injectable()
+  export class CoinService {
+
+    result: any;
+    constructor(private http: HttpClient) { }
+
+    addCoin(name, price) {
+      const uri = 'http://localhost:4000/coins/add';
+      const obj = {
+        name: name,
+        price: price
+      };
+      this
+        .http
+        .post(uri, obj)
+        .subscribe(res =>
+          console.log('Done'));
+    }
+
+    getCoins() {
+      const uri = 'http://localhost:4000/coins';
+      return this
+        .http
+        .get(uri)
+        .map(res => {
+          return res;
+        });
+    }
+
+    editCoin(id) {
+      const uri = 'http://localhost:4000/coins/edit/' + id;
+      return this
+        .http
+        .get(uri)
+        .map(res => {
+          return res;
+        });
+    }
+
+    updateCoin(name, price, id) {
+      const uri = 'http://localhost:4000/coins/update/' + id;
+
+      const obj = {
+        name: name,
+        price: price
+      };
+      this
+        .http
+        .post(uri, obj)
+        .subscribe(res => console.log('Done'));
+    }
+
+    deleteCoin(id) {
+      const uri = 'http://localhost:4000/coins/delete/' + id;
+
+      return this
+        .http
+        .get(uri)
+        .map(res => {
+          return res;
+        });
+    }
+  }
+```
+Write the following code in the `edit.component.html` file for the edit Form.
+```html
+  <main class="main">
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <form [formGroup]="coinForm" novalidate>
+          <mat-card class="form-card">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon class="icon">monetization_on</mat-icon>
+              </div>
+              <mat-card-title>Coins</mat-card-title>
+              <mat-card-subtitle>Create</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="form-container">
+                <mat-form-field>
+                  <input matInput placeholder="Coin Name" formControlName="coinName" [(ngModel)] = "coin.name">
+                  <mat-error *ngIf="coinName.invalid">Coin Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input type="number" min="1" matInput placeholder="Coin Price" formControlName="coinVal" [(ngModel)] = "coin.price">
+                  <mat-error *ngIf="coinVal.invalid">Coin value Must be a number and greater than 0</mat-error>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <div class="spacer"></div>
+              <button mat-button color="accent" (click)="updateCoin(coinForm.value.coinName, coinForm.value.coinVal)" [disabled]="coinForm.pristine || coinForm.invalid">Add</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+    </div>
+  </main>
+```
+Adding some styles
+> `edit.component.scss`
+```scss
+  .mat-card {
+    & > &-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+  }
+
+  .form-container {
+    display: flex;
+    padding: 30px 0;
+    flex-direction: column;
+    & > * {
+      width: 100%;
+    }
+  }
+```
+
+Adding Delete Functionality on list page
+```html
+  <a [routerLink]="" (click)="deleteCoin(element._id)" mat-icon-button color="warn">
+    <mat-icon aria-label="Delete Coin">delete</mat-icon>
+  </a>
+```
+Method for delete in `index.component.ts`
+```ts
+  ...
+
+  deleteCoin(id) {
+    this.service.deleteCoin(id).subscribe(res => {
+      this.getCoins();
+    });
+  }
+
+  ...
+```

@@ -20,7 +20,7 @@
             <a [routerLink]="['/edit', element._id]" mat-icon-button color="primary">
               <mat-icon aria-label="Edit Coin">edit</mat-icon>
             </a>
-            <a [routerLink]="" mat-icon-button color="warn">
+            <a [routerLink]="" (click)="deleteCoin(element._id)" mat-icon-button color="warn">
               <mat-icon aria-label="Delete Coin">delete</mat-icon>
             </a>
         </mat-cell>
