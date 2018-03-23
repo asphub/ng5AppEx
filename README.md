@@ -446,7 +446,7 @@ Adding some styles 😉
 ```
 
 ### **Step 10**
-Configure HttpClientModule
+#### Configure HttpClientModule
 
 > `HttpClientModule` is a new API that came with 4.3, it has updated API's with support for progress events, json deserialization by default, Interceptors and many other great features. See more [here](https://angular.io/guide/http), whereas `HttpModule` is the older API and will eventually be deprecated.
 
@@ -478,7 +478,6 @@ It will create the following classes.
 2. `coin.service.spec.ts`
 
 Now, import the service file into the `app.module.ts` file.
-
 ```ts
 import { CoinService } from './coin.service';
 

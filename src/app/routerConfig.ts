@@ -4,14 +4,21 @@ import { EditComponent } from './components/edit/edit.component';
 import { IndexComponent } from './components/index/index.component';
 
 export const appRoutes: Routes = [
-  { path: 'create',
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'index'
+  },
+  {
+    path: 'index',
+    component: IndexComponent
+  },
+  {
+    path: 'create',
     component: CreateComponent
   },
   {
     path: 'edit/:id',
     component: EditComponent
-  },
-  { path: 'index',
-    component: IndexComponent
   }
 ];
