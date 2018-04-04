@@ -41,6 +41,9 @@ npm install -g @angular/cli
 
 ### **Step 2**
 #### Create a new project
+> **Note:** Configuring default style extension to SCSS
+>
+> `ng set defaults.styleExt scss`
 ```bash
 ng new ng5AppEx
 ```
