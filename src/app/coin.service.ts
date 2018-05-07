@@ -5,7 +5,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CoinService {
-
   result: any;
   constructor(private http: HttpClient) { }
 

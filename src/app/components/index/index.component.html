@@ -1,33 +1,38 @@
 <main class="main">
-  <div class="col-md-6">
-    <mat-table #table [dataSource]="dataSource">
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-      </ng-container>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-table #table [dataSource]="dataSource">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
 
-      <!-- Price Column -->
-      <ng-container matColumnDef="price">
-        <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
-      </ng-container>
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+        </ng-container>
 
-      <!-- Action Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef class="w-120"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="w-120 t-r">
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef class="w-120"> Action </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="w-120 t-r">
             <a [routerLink]="['/edit', element._id]" mat-icon-button color="primary">
               <mat-icon aria-label="Edit Coin">edit</mat-icon>
             </a>
             <button (click)="deleteCoin(element._id)" mat-icon-button color="warn">
               <mat-icon aria-label="Delete Coin">delete</mat-icon>
             </button>
-        </mat-cell>
-      </ng-container>
+          </mat-cell>
+        </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+    <div class="col-md-6">
+      <!-- <pre>{{coins | json}}</pre> -->
+    </div>
   </div>
 </main>

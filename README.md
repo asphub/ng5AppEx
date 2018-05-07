@@ -59,7 +59,7 @@ ng g c edit
 ```
 We have created three components. Each component will do its job. Here we are establishing the single responsibility principle for every component.
 
-It makes a separate folder inside `src/app` directory. We need to move all these three folders inside components folder.
+It makes a separate folder inside `src/app` directory. We need to move all these three folders inside `components` folder.
 
 Also, we need to change the app.module.ts file, to write the correct path of the imported components. By default, it’s an app directory.
 
@@ -82,23 +82,30 @@ When we have created the components, it’s by default path is different and now
 Okay, now we need to configure the routes. So make one file inside app directory called routerConfig.ts file.
 
 Write the following code in it.
+> `routerConfig.ts`
 ```ts
-// routerConfig.ts
 import { Routes } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
 import { EditComponent } from './components/edit/edit.component';
 import { IndexComponent } from './components/index/index.component';
 
 export const appRoutes: Routes = [
-  { path: 'create',
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'index'
+  },
+  {
+    path: 'index',
+    component: IndexComponent
+  },
+  {
+    path: 'create',
     component: CreateComponent
   },
   {
     path: 'edit/:id',
     component: EditComponent
-  },
-  { path: 'index',
-    component: IndexComponent
   }
 ];
 ```
